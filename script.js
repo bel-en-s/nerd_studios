@@ -14,6 +14,25 @@ document.addEventListener("DOMContentLoaded", () => {
   ScrollTrigger.clearScrollMemory("manual");
   CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
+  const video = document.querySelector(".hero-bg video");
+  if (video) {
+    video.muted = true;
+    video.play().catch(() => {
+      // Ignorar error si el autoplay es bloqueado por el navegador
+    });
+
+    const playVideo = () => {
+      if (video.paused) {
+        video.play();
+      }
+      document.removeEventListener("touchstart", playVideo);
+      document.removeEventListener("click", playVideo);
+    };
+
+    document.addEventListener("touchstart", playVideo, { passive: true });
+    document.addEventListener("click", playVideo, { passive: true });
+  }
+
   const splitText = (selector, type, className) => {
     return SplitText.create(selector, {
       type: type,
@@ -192,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!title || !paragraph || !content) return;
 
       const pSplit = splitText(paragraph, "words", "word");
-      
+
       mm.add("(min-width: 1001px)", () => {
         gsap.to(content, {
           x: () => panel.offsetWidth - window.innerWidth,
@@ -224,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       mm.add("(max-width: 1000px)", () => {
         const pinDistance = () => panel.offsetWidth - window.innerWidth;
-        
+
         gsap.to(content, {
           x: pinDistance,
           ease: "none",
@@ -299,12 +318,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.querySelector(".back-to-top");
   if (backBtn) {
     backBtn.addEventListener("click", () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+      const proxy = { y: window.scrollY };
+      gsap.to(proxy, {
+        y: 0,
+        duration: 1.5,
+        ease: "power3.inOut",
+        onUpdate: () => window.scrollTo(0, proxy.y)
       });
     });
   }
+
+  // Navbar smooth scroll
+  const navLinks = document.querySelectorAll(".nav-links a");
+  navLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute("href");
+      if (!targetId || targetId === "#") return;
+
+      const targetPanel = document.querySelector(targetId);
+      if (targetPanel) {
+        // Calculamos el inicio del panel
+        let targetScroll = targetPanel.offsetLeft;
+
+        // Si es un panel con animación (texto anclado), sumamos su propio scroll interno 
+        // para que al llegar, la animación del texto esté completamente desplegada.
+        if (targetPanel.classList.contains("pin-panel")) {
+          targetScroll += targetPanel.offsetWidth - window.innerWidth;
+        }
+
+        const proxy = { y: window.scrollY };
+        gsap.to(proxy, {
+          y: targetScroll,
+          duration: 1.5,
+          ease: "power3.inOut",
+          onUpdate: () => window.scrollTo(0, proxy.y)
+        });
+      }
+    });
+  });
 
   window.addEventListener('beforeunload', () => {
     window.scrollTo(0, 0);
