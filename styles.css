@@ -75,6 +75,12 @@ nav {
   z-index: 1;
 }
 
+.nav-logo a {
+  font-family: "Printvetica", sans-serif;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
 .nav-links {
   display: flex;
   gap: 2rem;
@@ -108,10 +114,50 @@ nav {
 }
 
 .text-panel h2 {
-  margin-left: 50svh;
+  margin-left: 20svh;
   font-size: clamp(3rem, 8vw, 10rem);
   font-family: "Printvetica", sans-serif;
   text-transform: uppercase;
+}
+
+
+
+.text-panel.pin-panel {
+  width: 250vw;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0;
+}
+
+.pin-content {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-title {
+  flex: 0 0 45vw;
+  text-align: right;
+  padding-right: 4vw;
+  text-transform: uppercase;
+  font-size: clamp(3rem, 5.5vw, 8rem);
+  word-break: break-word;
+  margin: 0;
+}
+
+.section-paragraph {
+  flex: 0 0 55vw;
+  text-align: left;
+  padding-left: 4vw;
+  padding-right: 12vw;
+  font-size: 1.75rem;
+  line-height: 1.4;
+  text-transform: none;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  color: var(--base-100);
+  margin: 0;
 }
 
 .hero-bg {
@@ -136,7 +182,7 @@ nav {
 
 .header {
   position: absolute;
-  bottom: 4rem;
+  bottom: 5rem;
   width: 100%;
   padding: 0 2rem;
   display: flex;
@@ -151,12 +197,19 @@ nav {
 
 .hero-footer {
   position: absolute;
-  bottom: 2rem;
+  bottom: 0.2rem;
   width: 100%;
   padding: 2rem;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.footer-logo {
+  width: auto;
+  height: 80px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .progress-bar {
@@ -199,6 +252,50 @@ nav a .word,
   transform: translateY(100%);
 }
 
+.shop-panel {
+  width: 100vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.shop-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  opacity: 0;
+  /* for simple animation if we want, or just let it sit there. Let's start opacity 1 since it's scrolling in */
+  opacity: 1;
+}
+
+.shop-title {
+  font-family: "Printvetica", sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(3rem, 10vw, 12rem);
+  text-align: center;
+}
+
+.back-to-top {
+  background: transparent;
+  border: 1px solid var(--base-100);
+  color: var(--base-100);
+  padding: 1rem 3rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+  background: var(--base-100);
+  color: var(--base-300);
+}
+
 @media (max-width: 1000px) {
   .nav-links {
     flex-direction: column;
@@ -232,5 +329,59 @@ nav a .word,
     font-size: 23vw;
     display: flex;
     justify-content: space-between;
+  }
+
+
+
+  .text-panel.pin-panel {
+    width: 250vw;
+    flex-direction: row;
+    /* reset to row since flex logic moved to pin-content */
+    padding: 0;
+    /* reset panel padding */
+  }
+
+  .pin-content {
+    width: 100vw;
+    height: 100svh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 2rem;
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    flex: none;
+    margin-left: 0;
+    padding: 0;
+    font-size: 12vw;
+    text-align: left;
+    text-transform: uppercase;
+    position: relative;
+    width: 100%;
+    line-height: 1.1;
+  }
+
+  .section-paragraph {
+    flex: none;
+    position: relative;
+    left: 0;
+    padding: 0;
+    width: 100%;
+    font-size: 0.95rem;
+    text-align: left;
+    line-height: 1.35;
+  }
+
+  .shop-title {
+    font-size: 15vw;
+  }
+
+  .text-panel h2 {
+    margin-left: 0svh;
+    font-size: clamp(3rem, 8vw, 10rem);
+    font-family: "Printvetica", sans-serif;
+    text-transform: uppercase;
   }
 }

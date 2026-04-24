@@ -3,8 +3,15 @@ import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/all";
 
+if (history.scrollRestoration) {
+  history.scrollRestoration = "manual";
+}
+window.scrollTo(0, 0);
+
 document.addEventListener("DOMContentLoaded", () => {
+  window.scrollTo(0, 0);
   gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
+  ScrollTrigger.clearScrollMemory("manual");
   CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
   const splitText = (selector, type, className) => {
@@ -23,8 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const counterContainer = document.querySelector(".preloader-counter");
   const counter = { value: 0 };
 
+
   const tl = gsap.timeline({
     onComplete: () => {
+      window.scrollTo(0, 0);
       document.body.classList.remove("loading");
     }
   });
@@ -160,19 +169,97 @@ document.addEventListener("DOMContentLoaded", () => {
   const sections = gsap.utils.toArray(".panel");
   const scrollContainer = document.querySelector(".horizontal-scroll-container");
 
-  const scrollTween = gsap.to(sections, {
-    xPercent: -100 * (sections.length - 1),
+  const scrollTween = gsap.to(scrollContainer, {
+    x: () => -(scrollContainer.scrollWidth - window.innerWidth),
     ease: "none",
     scrollTrigger: {
       trigger: ".horizontal-scroll-wrapper",
       pin: true,
       scrub: 1.5,
-      end: () => "+=" + scrollContainer.offsetWidth
+      end: () => "+=" + (scrollContainer.scrollWidth - window.innerWidth)
     }
   });
 
+  // Simulated Pin for Text Panels
+  const pinPanels = gsap.utils.toArray(".pin-panel");
+  if (pinPanels.length > 0) {
+    let mm = gsap.matchMedia();
+
+    pinPanels.forEach(panel => {
+      const title = panel.querySelector(".section-title");
+      const paragraph = panel.querySelector(".section-paragraph");
+      const content = panel.querySelector(".pin-content");
+      if (!title || !paragraph || !content) return;
+
+      const pSplit = splitText(paragraph, "words", "word");
+      
+      mm.add("(min-width: 1001px)", () => {
+        gsap.to(content, {
+          x: () => panel.offsetWidth - window.innerWidth,
+          ease: "none",
+          scrollTrigger: {
+            trigger: panel,
+            containerAnimation: scrollTween,
+            start: "left left",
+            end: "right right",
+            scrub: true
+          }
+        });
+
+        gsap.set(pSplit.words, { opacity: 0, y: "100%" });
+        gsap.to(pSplit.words, {
+          opacity: 1,
+          y: "0%",
+          ease: "none",
+          stagger: 0.05,
+          scrollTrigger: {
+            trigger: panel,
+            containerAnimation: scrollTween,
+            start: "left left",
+            end: "right right",
+            scrub: 1
+          }
+        });
+      });
+
+      mm.add("(max-width: 1000px)", () => {
+        const pinDistance = () => panel.offsetWidth - window.innerWidth;
+        
+        gsap.to(content, {
+          x: pinDistance,
+          ease: "none",
+          scrollTrigger: {
+            trigger: panel,
+            containerAnimation: scrollTween,
+            start: "left left",
+            end: "right right",
+            scrub: true
+          }
+        });
+
+        gsap.set(pSplit.words, { opacity: 0, y: "100%" });
+        gsap.to(pSplit.words, {
+          opacity: 1,
+          y: "0%",
+          ease: "none",
+          stagger: 0.05,
+          scrollTrigger: {
+            trigger: panel,
+            containerAnimation: scrollTween,
+            start: "left left",
+            end: "right right",
+            scrub: 1
+          }
+        });
+      });
+    });
+  }
+
   const revealTexts = gsap.utils.toArray(".reveal-text");
   revealTexts.forEach((text) => {
+    // Skip section titles as they are animated independently
+    if (text.classList.contains("section-title")) return;
+
     const textSplit = splitText(text, "words", "word");
 
     gsap.set(textSplit.words, { opacity: 0, y: "100%" });
@@ -191,4 +278,36 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // Fade to black on the last panel
+  const shopPanel = document.querySelector("#panel-shop");
+  if (shopPanel) {
+    gsap.to(".hero-bg", {
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: shopPanel,
+        containerAnimation: scrollTween,
+        start: "left right",
+        end: "center center",
+        scrub: true
+      }
+    });
+  }
+
+  // Back to start button
+  const backBtn = document.querySelector(".back-to-top");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  }
+
+  window.addEventListener('beforeunload', () => {
+    window.scrollTo(0, 0);
+  });
 });
+
