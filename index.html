@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nerd Studios | DIVINO DIVINO</title>
+  <title>Nerd Studios</title>
   <meta name="description"
     content="Nerd Studios es el canal donde mis ideas se vuelven reales. Diseño, experimentación con materiales y piezas artesanales sin reglas." />
   <meta name="keywords"
@@ -12,7 +12,7 @@
   <meta name="author" content="Divino Divino" />
 
   <!-- Open Graph Meta Tags (Facebook, LinkedIn, iMessage, etc.) -->
-  <meta property="og:title" content="Nerd Studios | DIVINO DIVINO" />
+  <meta property="og:title" content="Nerd Studios" />
   <meta property="og:description"
     content="Un espacio de experimentación artesanal donde las ideas toman forma de manera intuitiva y libre." />
   <meta property="og:type" content="website" />
@@ -20,7 +20,7 @@
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Nerd Studios | DIVINO DIVINO" />
+  <meta name="twitter:title" content="Nerd Studios" />
   <meta name="twitter:description"
     content="Un espacio de experimentación artesanal donde las ideas toman forma de manera intuitiva y libre." />
 
@@ -40,22 +40,27 @@
         <img src="/logo-nerd.png" alt="Nerd Studios Logo" class="nav-logo-img">
       </a>
     </div>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
     <div class="nav-links">
       <a href="#panel-origen">Origen</a>
       <a href="#panel-quesees">Qué es</a>
       <a href="#panel-proceso">Proceso</a>
-      <a href="#panel-libertad">Libertad</a>
+      <a href="#panel-materiales">Materiales</a>
       <a href="#panel-universo">Universo</a>
-      <a href="#panel-intuicion">Intuición</a>
+      <a href="#panel-identidad">Identidad</a>
+      <a href="#panel-shop">Shop</a>
     </div>
   </nav>
 
   <div class="hero-bg">
-    <video src="/corto2.mp4" autoplay loop muted playsinline webkit-playsinline></video>
-  </div>
-
-  <div class="progress-bar">
-    <div class="progress"></div>
+    <video autoplay loop muted playsinline webkit-playsinline>
+      <source src="/mobile.mp4" type="video/mp4" media="(max-width: 1000px)">
+      <source src="/corto2.mp4" type="video/mp4">
+    </video>
   </div>
 
   <div class="horizontal-scroll-wrapper">
@@ -66,13 +71,6 @@
         <div class="header">
           <h1>Nerd</h1>
           <h1>Studios</h1>
-        </div>
-
-        <div class="hero-footer">
-          <p>Developed by</p>
-          <a href="https://divinodivino.com.ar" target="_blank" class="footer-logo-link">
-            <img src="/logo-divino.png" alt="Divino Divino logo" class="footer-logo">
-          </a>
         </div>
       </section>
 
@@ -115,9 +113,9 @@
       </section>
 
       <!-- Panel 5 -->
-      <section class="panel text-panel pin-panel" id="panel-libertad">
+      <section class="panel text-panel pin-panel" id="panel-materiales">
         <div class="pin-content">
-          <h2 class="reveal-text section-title">04.Libertad</h2>
+          <h2 class="reveal-text section-title">04.Materiales</h2>
           <p class="section-paragraph">
             Cuero, metal, telas, texturas y piezas hechas a mano que toman forma desde lo artesanal.
             Me interesa lo que envejece bien, lo que dura, lo que guarda marcas del tiempo.
@@ -137,9 +135,9 @@
       </section>
 
       <!-- Panel 7 -->
-      <section class="panel text-panel pin-panel" id="panel-intuicion">
+      <section class="panel text-panel pin-panel" id="panel-identidad">
         <div class="pin-content">
-          <h2 class="reveal-text section-title">06.Intuición / Niña interior</h2>
+          <h2 class="reveal-text section-title">06.Identidad</h2>
           <p class="section-paragraph">
             Un mundo creado por mí.
             Donde conviven lo prolijo y lo roto, lo pensado y lo intuitivo, la estructura y el caos.
@@ -149,10 +147,27 @@
       </section>
 
       <!-- Panel 8 -->
-      <section class="panel shop-panel" id="panel-shop">
-        <div class="shop-content">
-          <h2 class="shop-title">Shop Coming Soon</h2>
-          <button class="back-to-top">Volver al inicio</button>
+      <section class="panel text-panel pin-panel" id="panel-shop">
+        <div class="pin-content" style="position: relative;">
+          <h2 class="reveal-text section-title">07.Shop</h2>
+          <div class="shop-text-col">
+            <p class="section-paragraph" style="margin-bottom: 2rem;">Coming soon</p>
+            <div class="shop-buttons">
+              <!-- <a href="https://www.instagram.com/nerd___studios/" target="_blank" class="action-btn">instagram</a> -->
+              <button class="back-to-top action-btn">volver al inicio</button>
+            </div>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress"></div>
+          </div>
+
+          <div class="hero-footer">
+            <p>Developed by</p>
+            <a href="https://divinodivino.com.ar" target="_blank" class="footer-logo-link">
+              <img src="/logo-divino.png" alt="Divino Divino logo" class="footer-logo">
+            </a>
+          </div>
         </div>
       </section>
 

@@ -112,6 +112,25 @@ nav {
   font-weight: 400;
 }
 
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+  flex-direction: column;
+  gap: 6px;
+  mix-blend-mode: difference;
+}
+
+.menu-toggle .bar {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--base-100);
+  transition: all 0.3s ease;
+}
+
 .horizontal-scroll-wrapper {
   overflow: hidden;
   width: 100vw;
@@ -157,6 +176,7 @@ nav {
 
 .pin-content {
   width: 100vw;
+  height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,6 +191,19 @@ nav {
   word-break: break-word;
   margin: 0;
   /* text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 1); */
+}
+
+.shop-text-col {
+  flex: 0 0 55vw;
+  text-align: left;
+  padding-left: 4vw;
+  padding-right: 12vw;
+}
+
+.shop-text-col .section-paragraph {
+  flex: none;
+  padding: 0;
+  width: 100%;
 }
 
 .section-paragraph {
@@ -238,6 +271,7 @@ nav {
 .hero-footer {
   position: absolute;
   bottom: 0.2rem;
+  left: 0;
   width: 100%;
   padding: 2rem;
   display: flex;
@@ -253,7 +287,7 @@ nav {
 }
 
 .progress-bar {
-  position: fixed;
+  position: absolute;
   left: 2rem;
   bottom: 6rem;
   width: calc(100% - 4rem);
@@ -292,55 +326,78 @@ nav a .word,
   transform: translateY(100%);
 }
 
-.shop-panel {
-  width: 100vw;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.shop-content {
+.shop-buttons {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  opacity: 0;
-  /* for simple animation if we want, or just let it sit there. Let's start opacity 1 since it's scrolling in */
-  opacity: 1;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
-.shop-title {
-  font-family: "Helvetica", sans-serif;
-  text-transform: uppercase;
-  /* font-size: clamp(3rem, 10vw, 12rem); */
-  text-align: center;
-}
-
-.back-to-top {
+.action-btn {
   background: transparent;
   border: 1px solid var(--base-100);
   color: var(--base-100);
-  padding: 1rem 3rem;
+  padding: 0.6rem 1.8rem;
   font-family: "SimSun", serif;
-  font-size: 1.25rem;
+  font-size: 0.8rem;
   font-weight: 400;
   border-radius: 50px;
   cursor: pointer;
-  text-transform: uppercase;
+  text-transform: lowercase;
   transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
-.back-to-top:hover {
+.action-btn:hover {
   background: var(--base-100);
   color: var(--base-300);
 }
 
 @media (max-width: 1000px) {
+  nav {
+    z-index: 20;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+  
+  .menu-toggle.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .menu-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
   .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100svh;
+    background-color: var(--base-300);
     flex-direction: column;
-    align-items: flex-end;
-    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+    z-index: 10;
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    font-size: 2rem;
+    mix-blend-mode: normal;
   }
 
   .nav-logo-img {
@@ -364,6 +421,8 @@ nav a .word,
     width: 100%;
     margin: 0;
     line-height: 0.9;
+    letter-spacing: -1.8px;
+    ;
   }
 
   .header h1:nth-child(1) {
@@ -409,19 +468,16 @@ nav a .word,
     line-height: 1.1;
   }
 
-  .section-paragraph {
+  .section-paragraph,
+  .shop-text-col {
     flex: none;
     position: relative;
     left: 0;
     padding: 0;
     width: 100%;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     text-align: left;
-    line-height: 1.35;
-  }
-
-  .shop-title {
-    font-size: 5vw;
+    line-height: 1.2;
   }
 
   .text-panel h2 {

@@ -328,6 +328,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Navbar mobile toggle
+  const menuToggle = document.querySelector(".menu-toggle");
+  const navLinksContainer = document.querySelector(".nav-links");
+
+  if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+      menuToggle.classList.toggle("active");
+      navLinksContainer.classList.toggle("active");
+    });
+  }
+
   // Navbar smooth scroll
   const navLinks = document.querySelectorAll(".nav-links a");
   navLinks.forEach(link => {
@@ -354,6 +365,12 @@ document.addEventListener("DOMContentLoaded", () => {
           ease: "power3.inOut",
           onUpdate: () => window.scrollTo(0, proxy.y)
         });
+
+        // Close menu on mobile after click
+        if (window.innerWidth <= 1000 && menuToggle) {
+          menuToggle.classList.remove("active");
+          navLinksContainer.classList.remove("active");
+        }
       }
     });
   });
