@@ -1,13 +1,7 @@
 @font-face {
-  font-family: "SimSun";
-  src: url("/simsunb.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "Helvetica";
-  src: url("/Helvetica.woff2") format("woff2");
+  src: url("/Helvetica.woff2") format("woff2"),
+       url("/Helvetica.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -15,7 +9,8 @@
 
 @font-face {
   font-family: "Helvetica Light";
-  src: url("/helvetica-light-587ebe5a59211.woff2") format("woff2");
+  src: url("/helvetica-light-587ebe5a59211.woff2") format("woff2"),
+       url("/helvetica-light-587ebe5a59211.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -24,7 +19,7 @@
 :root {
   --base-100: #fff;
   --base-200: #3a3a3a;
-  --base-300: #0f0f0f;
+  --base-300: #000000;
 }
 
 * {
@@ -110,8 +105,8 @@ nav {
 
 .nav-links a {
   mix-blend-mode: difference;
-  font-family: "SimSun", serif;
-  font-weight: 400;
+  font-family: "Noto Serif", serif;
+  font-weight: 300;
 }
 
 .menu-toggle {
@@ -217,8 +212,8 @@ nav {
   font-size: 1.5rem;
   line-height: 1.15;
   text-transform: none;
-  font-family: "SimSun", serif;
-  font-weight: 400;
+  font-family: "Noto Serif", serif;
+  font-weight: 300;
   color: var(--base-100);
   margin: 0;
 }
@@ -269,6 +264,7 @@ nav {
 .header h1 {
   font-size: clamp(5rem, 16vw, 25rem);
   white-space: nowrap;
+  letter-spacing: -0.03em;
 }
 
 .hero-footer {
@@ -289,28 +285,53 @@ nav {
   filter: brightness(0) invert(1);
 }
 
-.progress-bar {
-  position: absolute;
-  left: 2rem;
-  bottom: 6rem;
-  width: calc(100% - 4rem);
-  height: 1.5px;
-  background-color: var(--base-200);
-  transform-origin: left;
-  transform: scaleX(0);
-  will-change: transform;
-  overflow: hidden;
-  z-index: 10;
+.shop-panel {
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.progress-bar .progress {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: var(--base-100);
-  transform-origin: left;
-  transform: scaleX(0);
-  will-change: transform;
+.shop-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.shop-title {
+  font-family: "Helvetica", sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.shop-footer {
+  border: none;
+}
+
+.back-to-top {
+  background: transparent;
+  border: 1px solid var(--base-100);
+  color: var(--base-100);
+  padding: 0.6rem 1.8rem;
+  font-family: "Noto Serif", serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+  background: var(--base-100);
+  color: var(--base-300);
 }
 
 .word,
@@ -321,7 +342,7 @@ nav {
 }
 
 .header h1 .char {
-  transform: translateX(100%);
+  transform: translateX(120%);
 }
 
 nav a .word,
@@ -341,9 +362,9 @@ nav a .word,
   border: 1px solid var(--base-100);
   color: var(--base-100);
   padding: 0.6rem 1.8rem;
-  font-family: "SimSun", serif;
+  font-family: "Noto Serif", serif;
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 300;
   border-radius: 50px;
   cursor: pointer;
   text-transform: lowercase;
@@ -425,9 +446,7 @@ nav a .word,
   .header h1 {
     width: 100%;
     margin: 0;
-    line-height: 0.9;
-    letter-spacing: -1.8px;
-    ;
+    line-height: 1;
   }
 
   .header h1:nth-child(1) {
@@ -437,7 +456,7 @@ nav a .word,
 
   .header h1:nth-child(2) {
     font-size: 23vw;
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
   }
 
@@ -467,6 +486,7 @@ nav a .word,
     padding: 0;
     font-size: 12vw;
     text-align: left;
+    font-family: "Helvetica", sans-serif;
     text-transform: uppercase;
     position: relative;
     width: 100%;
@@ -488,6 +508,7 @@ nav a .word,
   .text-panel h2 {
     margin-left: 0svh;
     font-size: clamp(2rem, 8vw, 10rem);
+    font-family: "Helvetica", sans-serif;
   }
 
   .shop-buttons {

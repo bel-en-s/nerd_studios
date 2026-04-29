@@ -16,21 +16,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const video = document.querySelector(".hero-bg video");
   if (video) {
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
+    video.playsInline = true;
     video.muted = true;
-    video.play().catch(() => {
-      // Ignorar error si el autoplay es bloqueado por el navegador
-    });
+    video.load();
 
-    const playVideo = () => {
-      if (video.paused) {
-        video.play();
+    const attemptPlay = () => {
+      const promise = video.play();
+      if (promise !== undefined) {
+        promise.catch(() => {
+          const playOnInteraction = () => {
+            video.play();
+            document.removeEventListener("touchstart", playOnInteraction);
+            document.removeEventListener("click", playOnInteraction);
+          };
+          document.addEventListener("touchstart", playOnInteraction, { passive: true, once: true });
+          document.addEventListener("click", playOnInteraction, { once: true });
+        });
       }
-      document.removeEventListener("touchstart", playVideo);
-      document.removeEventListener("click", playVideo);
     };
 
-    document.addEventListener("touchstart", playVideo, { passive: true });
-    document.addEventListener("click", playVideo, { passive: true });
+    attemptPlay();
   }
 
   const splitText = (selector, type, className) => {
