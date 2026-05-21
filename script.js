@@ -52,10 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const navSplit = splitText("nav a", "words", "word");
   const footerSplit = splitText(".hero-footer p", "words", "word");
 
-  const counterProgress = document.querySelector(".preloader-counter h1");
-  const counterContainer = document.querySelector(".preloader-counter");
-  const counter = { value: 0 };
-
+  const loader = document.querySelector(".loader");
 
   const tl = gsap.timeline({
     onComplete: () => {
@@ -64,48 +61,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  tl.to(counter, {
-    value: 100,
-    duration: 3,
-    ease: "power3.out",
-
-    onUpdate: () => {
-      counterProgress.textContent = Math.floor(counter.value);
-    },
-
-    onComplete: () => {
-      const counterSplit = splitText(counterProgress, "chars", "digit");
-      gsap.to(counterSplit.chars, {
-        x: "-100%",
-        duration: 0.75,
-        ease: "power3.out",
-        stagger: 0.1,
-        delay: 1,
-        onComplete: () => {
-          counterContainer.remove();
-        },
-      });
-    },
-  });
-
   tl.to(
-    counterContainer,
+    loader,
     {
-      scale: 1,
-      duration: 3,
-      ease: "power3.out",
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.out",
+      onComplete: () => {
+        loader.remove();
+      },
     },
-    "<"
-  );
-
-  tl.to(
-    ".progress-bar",
-    {
-      scaleX: 1,
-      duration: 3,
-      ease: "power3.out",
-    },
-    "<"
+    4
   );
 
   tl.to(
@@ -187,6 +153,17 @@ document.addEventListener("DOMContentLoaded", () => {
       duration: 1,
       ease: "power4.out",
       stagger: 0.075,
+    },
+    7.5
+  );
+
+  tl.to(
+    ".hero-links a",
+    {
+      y: "0%",
+      duration: 1,
+      ease: "power4.out",
+      stagger: 0.15,
     },
     7.5
   );

@@ -62,18 +62,28 @@ p {
   line-height: 1;
 }
 
-.preloader-counter {
+.loader {
   position: fixed;
-  top: 50svh;
-  left: 2rem;
-  transform: translateY(-50%) scale(0.25);
-  transform-origin: left bottom;
-  will-change: transform;
-  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--base-300);
+  z-index: 100;
 }
 
-.preloader-counter h1 {
-  font-size: clamp(2.5rem, 25vw, 25rem);
+.loader-gif {
+  width: 400px;
+  height: auto;
+}
+
+@media (min-width: 1001px) {
+  .loader-gif {
+    width: 500px;
+  }
 }
 
 nav {
@@ -107,6 +117,10 @@ nav {
   mix-blend-mode: difference;
   font-family: "Noto Serif", serif;
   font-weight: 300;
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 0;
+  transform: translateY(150%);
 }
 
 .menu-toggle {
@@ -253,12 +267,37 @@ nav {
 
 .header {
   position: absolute;
-  bottom: 5rem;
+  bottom: 10rem;
   width: 100%;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+}
+
+.hero-links {
+  position: absolute;
+  bottom: 5rem;
+  right: 2rem;
+  display: flex;
+  gap: 2rem;
+  z-index: 1;
+}
+
+.hero-links a {
+  font-family: "Noto Serif", serif;
+  font-weight: 300;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: var(--base-100);
+  mix-blend-mode: difference;
+  transform: translateY(100%);
+  text-transform: uppercase;
+}
+
+.hero-links a:hover {
+  text-decoration: underline;
 }
 
 .header h1 {
@@ -346,8 +385,9 @@ nav {
 }
 
 nav a .word,
-.hero-footer p .word {
-  transform: translateY(100%);
+.hero-footer p .word,
+.hero-links a {
+  transform: translateY(150%);
 }
 
 .shop-buttons {
@@ -424,6 +464,8 @@ nav a .word,
   .nav-links a {
     font-size: 2rem;
     mix-blend-mode: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
   }
 
   .nav-logo-img {
@@ -456,8 +498,17 @@ nav a .word,
 
   .header h1:nth-child(2) {
     font-size: 23vw;
-    /* display: flex; */
     justify-content: space-between;
+  }
+
+  .hero-links {
+    bottom: 3rem;
+    right: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .hero-links a {
+    font-size: 0.85rem;
   }
 
 
