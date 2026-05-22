@@ -8,6 +8,32 @@ if (history.scrollRestoration) {
 }
 window.scrollTo(0, 0);
 
+const curtain = document.querySelector(".page-transition");
+if (curtain) {
+  gsap.set(curtain, { scaleY: 1, transformOrigin: "center" });
+  gsap.to(curtain, {
+    scaleY: 0,
+    duration: 0.8,
+    ease: "power4.inOut",
+    delay: 0.15,
+  });
+}
+
+function navigateWithTransition(url) {
+  if (!curtain || url === window.location.pathname) {
+    window.location.href = url;
+    return;
+  }
+  gsap.to(curtain, {
+    scaleY: 1,
+    duration: 0.8,
+    ease: "power4.inOut",
+    onComplete: () => {
+      window.location.href = url;
+    },
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   window.scrollTo(0, 0);
   gsap.registerPlugin(CustomEase, SplitText, ScrollTrigger);
@@ -327,9 +353,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll(".nav-links a");
   navLinks.forEach(link => {
     link.addEventListener("click", (e) => {
-      e.preventDefault();
       const targetId = link.getAttribute("href");
       if (!targetId || targetId === "#") return;
+      if (!targetId.startsWith("#")) {
+        e.preventDefault();
+        navigateWithTransition(targetId);
+        return;
+      }
+      e.preventDefault();
 
       const targetPanel = document.querySelector(targetId);
       if (targetPanel) {
