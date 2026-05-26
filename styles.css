@@ -61,7 +61,7 @@ video {
 }
 
 h1 {
-  font-family: "Helvetica", sans-serif;
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
   line-height: 1;
 }
 
@@ -110,15 +110,20 @@ nav {
 }
 
 .nav-logo a {
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
-.nav-logo-img {
-  width: auto;
-  height: 76px;
-  object-fit: contain;
-  /* Aplica mix-blend-mode por si la imagen tiene fondo negro (modo pantalla oculta lo negro) */
-  mix-blend-mode: screen;
+.nav-logo-text {
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--base-100);
+  mix-blend-mode: difference;
+  margin: 0;
 }
 
 .nav-links {
@@ -128,12 +133,12 @@ nav {
 
 .nav-links a {
   mix-blend-mode: difference;
-  font-family: "Helvetica", sans-serif;
-  font-weight: 300;
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+  font-weight: 400;
   font-size: 0.85rem;
   letter-spacing: 0.1em;
   padding: 0.5rem 0;
-  transform: translateY(150%);
+  /* transform: translateY(150%); */
 }
 
 .menu-toggle {
@@ -185,7 +190,7 @@ nav {
 .text-panel h2 {
   /* margin-left: 20svh; */
   font-size: 40px;
-  font-family: "Helvetica Light", sans-serif;
+  font-family: "Special Gothic Condensed One", "Helvetica Light", sans-serif;
   text-transform: uppercase;
 }
 
@@ -207,12 +212,13 @@ nav {
 }
 
 .section-title {
-  font-family: "Helvetica Light", sans-serif;
+  font-family: "Special Gothic Condensed One", "Helvetica Light", sans-serif;
   flex: 0 0 45vw;
   text-align: right;
   padding-right: 4vw;
   text-transform: uppercase;
   font-size: clamp(3rem, 5.5vw, 8rem);
+  letter-spacing: 0.08em;
   word-break: break-word;
   margin: 0;
   /* text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 1); */
@@ -243,6 +249,15 @@ nav {
   font-weight: 300;
   color: var(--base-100);
   margin: 0;
+}
+
+#panel-origen .section-paragraph {
+  font-family: "Special Gothic Condensed One", sans-serif;
+  font-weight: 300;
+}
+
+#panel-quesees .section-paragraph {
+  font-family: "Marion", serif;
 }
 
 
@@ -280,8 +295,10 @@ nav {
 
 .header {
   position: absolute;
-  bottom: 12rem;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 100%; */
   padding: 0 2rem;
   display: flex;
   justify-content: center;
@@ -299,8 +316,8 @@ nav {
 }
 
 .hero-links a {
-  font-family: "Helvetica", sans-serif;
-  font-weight: 300;
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+  font-weight: 400;
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   text-decoration: none;
@@ -315,7 +332,7 @@ nav {
 }
 
 .header h1 {
-  font-size: clamp(3rem, 8vw, 12rem);
+  font-size: clamp(2rem, 5vw, 7rem);
   white-space: nowrap;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -358,7 +375,7 @@ nav {
 }
 
 .shop-title {
-  font-family: "Helvetica", sans-serif;
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
   text-transform: uppercase;
   font-size: clamp(1.5rem, 4vw, 3rem);
   text-align: center;
@@ -395,7 +412,7 @@ nav {
   will-change: transform;
 }
 
-.header h1 .char {
+.nav-logo-text .char {
   transform: translateX(120%);
 }
 
@@ -477,17 +494,15 @@ nav a .word,
   }
 
   .nav-links a {
-    font-family: "Helvetica", sans-serif;
+    font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
     font-size: 1.5rem;
     mix-blend-mode: normal;
     text-transform: uppercase;
     letter-spacing: 0.15em;
   }
 
-  .nav-logo-img {
-
-    height: 46px;
-
+  .nav-logo-text {
+    font-size: 1.2rem;
   }
 
   .header {
@@ -508,12 +523,12 @@ nav a .word,
   }
 
   .header h1:nth-child(1) {
-    font-size: 16vw;
+    font-size: 12vw;
     text-align: center;
   }
 
   .header h1:nth-child(2) {
-    font-size: 17vw;
+    font-size: 13vw;
     text-align: center;
   }
 
@@ -553,7 +568,7 @@ nav a .word,
     padding: 0;
     font-size: 12vw;
     text-align: left;
-    font-family: "Helvetica", sans-serif;
+    font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
     text-transform: uppercase;
     position: relative;
     width: 100%;
@@ -575,7 +590,7 @@ nav a .word,
   .text-panel h2 {
     margin-left: 0svh;
     font-size: clamp(2rem, 8vw, 10rem);
-    font-family: "Helvetica", sans-serif;
+    font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
   }
 
   .shop-buttons {

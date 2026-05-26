@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  const headerSplit = splitText(".header h1", "chars", "char");
+  const navLogoSplit = splitText(".nav-logo-text", "chars", "char");
   const navSplit = splitText("nav a", "words", "word");
   const footerSplit = splitText(".hero-footer p", "words", "word");
 
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   tl.to(
-    ".header h1 .char",
+    ".nav-logo-text .char",
     {
       x: "0%",
       duration: 1,
