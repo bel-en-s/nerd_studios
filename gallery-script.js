@@ -84,6 +84,28 @@ window.addEventListener("wheel", (e) => {
   target = Math.min(maxScroll, target);
 });
 
+let touchStartX = 0;
+let isTouching = false;
+
+slider.addEventListener("touchstart", (e) => {
+  touchStartX = e.touches[0].clientX;
+  isTouching = true;
+});
+
+slider.addEventListener("touchmove", (e) => {
+  if (!isTouching) return;
+  const currentX = e.touches[0].clientX;
+  const deltaX = touchStartX - currentX;
+  touchStartX = currentX;
+  target += deltaX;
+  target = Math.max(0, target);
+  target = Math.min(maxScroll, target);
+});
+
+slider.addEventListener("touchend", () => {
+  isTouching = false;
+});
+
 update();
 
 const menuToggle = document.querySelector(".menu-toggle");

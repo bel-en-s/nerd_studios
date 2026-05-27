@@ -245,19 +245,10 @@ nav {
   font-size: 1.5rem;
   line-height: 1.15;
   text-transform: none;
-  font-family: "Noto Serif", serif;
+  font-family: "Marion Standard Regular", serif;
   font-weight: 300;
   color: var(--base-100);
   margin: 0;
-}
-
-#panel-origen .section-paragraph {
-  font-family: "Special Gothic Condensed One", sans-serif;
-  font-weight: 300;
-}
-
-#panel-quesees .section-paragraph {
-  font-family: "Marion", serif;
 }
 
 
@@ -511,9 +502,15 @@ nav a .word,
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: stretch;
-    transform: translateY(-50%);
+    align-items: center;
+    /* transform: translateY(-50%); */
     padding: 0 1.5rem;
+  }
+
+  .hero-logo {
+    /* width: 60%;
+    max-width: 300px; */
+    height: auto;
   }
 
   .header h1 {
@@ -593,10 +590,13 @@ nav a .word,
     font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
   }
 
+  .hero-footer {
+    justify-content: center;
+  }
+
   .shop-buttons {
     position: absolute;
     bottom: -6rem;
-    /* lo deja justo arriba del footer */
     left: 50%;
     transform: translateX(-50%);
 
