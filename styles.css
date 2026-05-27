@@ -375,6 +375,11 @@ nav {
 
 .shop-footer {
   border: none;
+  justify-content: center;
+}
+
+.shop-footer .back-to-top {
+  margin: 0 auto;
 }
 
 .back-to-top {
