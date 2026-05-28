@@ -270,10 +270,17 @@ p#header {
 
   .menu-toggle {
     display: flex;
+    padding: 0 8px;
+    margin: 8px 0;
+    gap: 5px;
+  }
+
+  .menu-toggle .bar {
+    width: 22px;
   }
 
   .menu-toggle.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(7px) rotate(45deg);
   }
 
   .menu-toggle.active .bar:nth-child(2) {
@@ -281,7 +288,7 @@ p#header {
   }
 
   .menu-toggle.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-7px) rotate(-45deg);
   }
 
   .nav-links {
