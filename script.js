@@ -151,6 +151,27 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   tl.to(
+    ".hero-logo",
+    {
+      y: "0%",
+      clipPath: "inset(0 0 0% 0)",
+      duration: 1.2,
+      ease: "power3.out",
+    },
+    6.2
+  );
+
+  tl.to(
+    ".hero-tagline",
+    {
+      y: "0%",
+      duration: 1,
+      ease: "power4.out",
+    },
+    7
+  );
+
+  tl.to(
     ".nav-logo-text .char",
     {
       x: "0%",

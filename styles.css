@@ -70,6 +70,10 @@ h1 {
     max-width: 300px; */
     height: auto;
     width: 350px;
+    display: block;
+    transform: translateY(100%);
+    clip-path: inset(0 0 100% 0);
+    will-change: transform, clip-path;
   }
 
 a,
@@ -302,6 +306,7 @@ nav {
   justify-content: center;
   align-items: center;
   gap: 0.25rem;
+  overflow: hidden;
 }
 
 .hero-tagline {
@@ -311,6 +316,8 @@ nav {
   text-transform: lowercase;
   letter-spacing: 0.05em;
   text-align: center;
+  transform: translateY(100%);
+  will-change: transform;
 }
 
 .hero-links {
