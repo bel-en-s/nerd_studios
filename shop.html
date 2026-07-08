@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop | Nerd Studios</title>
+  <meta name="description" content="Tienda Nerd Studios — objetos y prendas artesanales." />
+  <link rel="stylesheet" href="/shop-styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,300&family=Special+Gothic+Condensed+One&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+</head>
+<body>
+  <div class="page-transition"></div>
+
+  <nav>
+    <div class="nav-logo">
+      <a href="/index.html">
+        <h2 class="nav-logo-text">Nerd Studios</h2>
+      </a>
+    </div>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <div class="nav-links">
+      <a href="/index.html">ABOUT</a>
+      <a href="/gallery.html">GALLERY</a>
+      <a href="/shop.html" class="active">SHOP</a>
+    </div>
+  </nav>
+
+  <div class="shop-sidebar">
+    <div class="shop-sidebar-item">
+      <p>(Product Archive)</p>
+    </div>
+    <div class="shop-sidebar-item">
+      <p id="product-count">—</p>
+    </div>
+  </div>
+
+  <div class="shop-filters" id="shop-filters">
+    <button class="filter-btn active" data-filter="all">Todo</button>
+    <button class="filter-btn" data-filter="arriba">Arriba</button>
+    <button class="filter-btn" data-filter="abajo">Abajo</button>
+    <button class="filter-btn" data-filter="centro">Centro</button>
+  </div>
+
+  <main class="shop-page">
+    <div class="product-grid" id="product-grid">
+      <div class="loader-shop">
+        <p>Cargando productos...</p>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="/shop-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+@font-face {
+  font-family: "Helvetica";
+  src: url("/Helvetica.woff2") format("woff2"),
+       url("/Helvetica.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Light";
+  src: url("/helvetica-light-587ebe5a59211.woff2") format("woff2"),
+       url("/helvetica-light-587ebe5a59211.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  overflow-x: hidden;
+}
+
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  background: #000;
+  z-index: 9999;
+  pointer-events: none;
+  transform: scaleY(1);
+  transform-origin: center;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  mix-blend-mode: difference;
+}
+
+.nav-logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-logo-text {
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #fff;
+  margin: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-toggle .bar {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.product-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem 4rem;
+  width: 100%;
+}
+
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.product-gallery {
+  position: sticky;
+  top: 6rem;
+}
+
+.product-main-image {
+  width: 100%;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+  background: #e3e3e3;
+}
+
+.product-thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.product-thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+  background: #e3e3e3;
+}
+
+.product-thumb.active,
+.product-thumb:hover {
+  opacity: 1;
+}
+
+.product-info {
+  padding-top: 1rem;
+}
+
+.product-back {
+  display: inline-block;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.75rem;
+  color: #999;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+}
+
+.product-back:hover {
+  color: #000;
+}
+
+.product-category {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #999;
+}
+
+.product-name {
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  margin: 0.5rem 0 1rem;
+  color: #000;
+}
+
+.product-price {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.2rem;
+  color: #000;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.product-description {
+  font-family: "Noto Serif", serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.product-options {
+  margin-bottom: 2rem;
+}
+
+.product-option-group {
+  margin-bottom: 1.5rem;
+}
+
+.product-option-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #999;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.product-option-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.option-btn {
+  background: transparent;
+  border: 1px solid #e3e3e3;
+  padding: 0.5rem 1.2rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+  border-color: #999;
+  color: #000;
+}
+
+.option-btn.active {
+  border-color: #000;
+  color: #000;
+  background: #000;
+  color: #fff;
+}
+
+.product-stock {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 1.5rem;
+}
+
+.product-sku {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  color: #ccc;
+  margin-top: 1rem;
+}
+
+.product-loader {
+  text-align: center;
+  padding: 6rem;
+  font-family: "Noto Serif", serif;
+  color: #999;
+}
+
+.product-404 {
+  text-align: center;
+  padding: 6rem;
+}
+
+.product-404 h2 {
+  font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 1rem;
+}
+
+.product-404 p {
+  font-family: "Noto Serif", serif;
+  color: #999;
+}
+
+@media (max-width: 1000px) {
+  nav { z-index: 100; }
+
+  .menu-toggle {
+    display: flex;
+    padding: 0 8px;
+    margin: 8px 0;
+    gap: 5px;
+  }
+
+  .menu-toggle .bar { width: 22px; }
+
+  .menu-toggle.active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+  .menu-toggle.active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100svh;
+    background: #000;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+    z-index: 10;
+  }
+
+  .nav-links.active { transform: translateX(0); }
+
+  .nav-links a {
+    font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
+    font-size: 1.5rem;
+    mix-blend-mode: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .nav-logo-text { font-size: 1rem; }
+
+  .product-page {
+    padding: 6rem 1rem 2rem;
+  }
+
+  .product-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .product-gallery {
+    position: static;
+  }
+
+  .product-name {
+    font-size: 1.8rem;
+  }
+}

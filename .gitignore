@@ -1,0 +1,13 @@
+dist/
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Backend
+backend/pb_data/
+backend/tiendago
+backend/dist/
+*.db
+*.db-*
