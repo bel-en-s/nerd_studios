@@ -13,9 +13,13 @@ func init() {
 		products.Fields.Add(&core.EditorField{Name: "description"})
 		products.Fields.Add(&core.SelectField{
 			Name: "category", Required: true, MaxSelect: 1,
-			Values: []string{"arriba", "abajo", "centro"},
+			Values: []string{"tops", "outerwear", "bottoms", "accessories", "archive_rental"},
 		})
 		products.Fields.Add(&core.BoolField{Name: "active"})
+		products.Fields.Add(&core.SelectField{
+			Name: "label", Required: true, MaxSelect: 1,
+			Values: []string{"made_to_order", "ready_to_ship", "one_of_one", "archive_rental"},
+		})
 		products.Fields.Add(&core.FileField{
 			Name: "images", MaxSelect: 8, MaxSize: 5 * 1024 * 1024,
 			MimeTypes: []string{"image/jpeg", "image/png", "image/webp", "image/avif"},

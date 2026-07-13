@@ -118,7 +118,8 @@ function findMatchingVariant(variants, selected) {
 function renderProduct(product, options, variants) {
   const hasImages = product.images && product.images.length > 0;
   const images = hasImages ? product.images : [];
-  const categoryLabels = { arriba: "arriba", abajo: "abajo", centro: "centro" };
+  const categoryLabels = { tops: "Tops", outerwear: "Outerwear", bottoms: "Bottoms", accessories: "Accessories", archive_rental: "Archive Rental" };
+  const labelLabels = { made_to_order: "Made to Order", ready_to_ship: "Ready to Ship", one_of_one: "One of One", archive_rental: "Archive Rental" };
 
   const minPrice = variants.length > 0
     ? Math.min(...variants.filter(v => v.price_ars).map(v => v.price_ars))
@@ -172,7 +173,10 @@ function renderProduct(product, options, variants) {
       </div>
       <div class="product-info">
         <a href="/shop.html" class="product-back">&larr; Volver al shop</a>
-        <span class="product-category">${categoryLabels[product.category] || product.category}</span>
+        <div class="product-meta">
+          <span class="product-category">${categoryLabels[product.category] || product.category}</span>
+          ${product.label ? `<span class="product-label">${labelLabels[product.label] || product.label}</span>` : ""}
+        </div>
         <h1 class="product-name">${product.name}</h1>
         <span class="product-price" id="product-price">${minPrice ? formatARS(minPrice) : ""}</span>
         <div class="product-description">${product.description || ""}</div>

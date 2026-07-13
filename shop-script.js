@@ -64,9 +64,18 @@ let allProducts = [];
 let currentFilter = "all";
 
 const categoryLabels = {
-  arriba: "arriba",
-  abajo: "abajo",
-  centro: "centro",
+  tops: "Tops",
+  outerwear: "Outerwear",
+  bottoms: "Bottoms",
+  accessories: "Accessories",
+  archive_rental: "Archive Rental",
+};
+
+const labelLabels = {
+  made_to_order: "Made to Order",
+  ready_to_ship: "Ready to Ship",
+  one_of_one: "One of One",
+  archive_rental: "Archive Rental",
 };
 
 async function fetchProducts(category) {
@@ -101,12 +110,7 @@ async function fetchVariants(productId) {
 
 function renderProducts(products) {
   if (products.length === 0) {
-    const categoryName = currentFilter !== "all" ? currentFilter : "";
-    productGrid.innerHTML = `
-      <div class="shop-coming">
-        <h2>${categoryName ? `Sin productos en "${categoryName}"` : "Shop Coming Soon"}</h2>
-        <p>${categoryName ? "Todavia no hay productos en esta categoria." : "Los productos se cargan desde PocketBase cuando el backend esta corriendo."}</p>
-      </div>`;
+    productGrid.innerHTML = `<div class="shop-empty"><p>No hay productos en esta categoria.</p></div>`;
     if (productCount) productCount.textContent = "0 productos";
     return;
   }
@@ -137,6 +141,7 @@ function renderProducts(products) {
                 : `<div class="product-card-image-placeholder">${p.name.charAt(0)}</div>`
             }
           </div>
+          ${p.label ? `<span class="product-card-label">${labelLabels[p.label] || p.label}</span>` : ""}
           <div class="product-card-info">
             <span class="product-card-category">${categoryLabels[p.category] || p.category}</span>
             <h3 class="product-card-name">${p.name}</h3>
