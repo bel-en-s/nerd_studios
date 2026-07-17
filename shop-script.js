@@ -78,6 +78,21 @@ const labelLabels = {
   archive_rental: "Archive Rental",
 };
 
+const colorMap = {
+  negro: "#1a1a1a",
+  blanco: "#f0f0f0",
+  gris: "#999",
+  oliva: "#6b6e4b",
+  beige: "#e8dcc8",
+  crudo: "#f5ecd7",
+  celeste: "#b3d4e0",
+  verde: "#5c7a5c",
+  indigo: "#3f51b5",
+  naranja: "#e67e22",
+  "negro/blanco": "linear-gradient(135deg, #1a1a1a 50%, #f0f0f0 50%)",
+  "rojo/crema": "linear-gradient(135deg, #c0392b 50%, #f5ecd7 50%)",
+};
+
 async function fetchProducts(category) {
   try {
     let filter = "(active=true)";
@@ -130,6 +145,7 @@ function renderProducts(products) {
 
       const price = p.variantPrice || null;
       const variantCount = p.variantCount || 0;
+      const colors = p.colors || [];
 
       return `
         <a href="/product.html?slug=${p.slug}" class="product-card" data-slug="${p.slug}">
@@ -141,7 +157,6 @@ function renderProducts(products) {
                 : `<div class="product-card-image-placeholder">${p.name.charAt(0)}</div>`
             }
           </div>
-          ${p.label ? `<span class="product-card-label">${labelLabels[p.label] || p.label}</span>` : ""}
           <div class="product-card-info">
             <span class="product-card-category">${categoryLabels[p.category] || p.category}</span>
             <h3 class="product-card-name">${p.name}</h3>
@@ -150,6 +165,7 @@ function renderProducts(products) {
                 ? `<span class="product-card-price">${formatARS(price)}</span>`
                 : ""
             }
+            ${colors.length > 0 ? `<div class="product-card-colors">${colors.map(c => `<span class="color-swatch" style="background:${colorMap[c.toLowerCase()] || '#ccc'}"></span>`).join("")}</div>` : ""}
             ${
               variantCount > 0
                 ? `<span class="product-card-variants">${variantCount} variante${variantCount !== 1 ? "s" : ""}</span>`
@@ -163,10 +179,11 @@ function renderProducts(products) {
 
   gsap.from(".product-card", {
     opacity: 0,
-    y: 20,
-    duration: 0.5,
-    stagger: 0.04,
-    ease: "power2.out",
+    y: 30,
+    scale: 0.97,
+    duration: 0.6,
+    stagger: 0.05,
+    ease: "power3.out",
   });
 }
 
@@ -186,10 +203,12 @@ async function loadProducts(category) {
       const variants = await fetchVariants(p.id);
       const prices = variants.filter((v) => v.price_ars).map((v) => v.price_ars);
       const minPrice = prices.length > 0 ? Math.min(...prices) : null;
+      const colors = [...new Set(variants.filter(v => v.options?.color).map(v => v.options.color))];
       return {
         ...p,
         variantPrice: minPrice,
         variantCount: variants.length,
+        colors,
       };
     })
   );
