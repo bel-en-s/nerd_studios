@@ -1,7 +1,4 @@
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8090";
 
@@ -118,30 +115,66 @@ function findMatchingVariant(variants, selected) {
   return null;
 }
 
-function renderGallery(product, variantImages) {
-  const images = variantImages && variantImages.length > 0
-    ? variantImages
-    : (product.images || []);
-  if (images.length === 0) {
-    return `<div class="product-gallery-image" style="background:#e3e3e3;aspect-ratio:3/2"></div>`;
+function renderCarousel(product, images, activeIndex) {
+  if (!images || images.length === 0) {
+    return `<div class="gallery-placeholder"></div>`;
   }
-  return images.map(img =>
-    `<img class="product-gallery-image" src="${API_BASE}/api/files/products/${product.id}/${img}" alt="${product.name}" />`
-  ).join("");
+  return `
+    <div class="gallery-carousel">
+      <button class="gallery-arrow gallery-arrow-left" aria-label="Anterior">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="gallery-track">
+        ${images.map((img, i) => `
+          <img class="gallery-slide ${i === activeIndex ? 'active' : ''}" src="${API_BASE}/api/files/products/${product.id}/${img}" alt="${product.name}" />
+        `).join("")}
+      </div>
+      <button class="gallery-arrow gallery-arrow-right" aria-label="Siguiente">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+      <div class="gallery-dots">
+        ${images.map((_, i) => `<span class="gallery-dot ${i === activeIndex ? 'active' : ''}" data-index="${i}"></span>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function setupCarousel(images) {
+  const carousel = document.querySelector(".gallery-carousel");
+  if (!carousel) return;
+  const slides = carousel.querySelectorAll(".gallery-slide");
+  const dots = carousel.querySelectorAll(".gallery-dot");
+  const leftArrow = carousel.querySelector(".gallery-arrow-left");
+  const rightArrow = carousel.querySelector(".gallery-arrow-right");
+  if (slides.length === 0) return;
+
+  let currentIndex = 0;
+  slides.forEach((s, i) => { if (s.classList.contains("active")) currentIndex = i; });
+
+  function goTo(index) {
+    if (index < 0) index = slides.length - 1;
+    if (index >= slides.length) index = 0;
+    currentIndex = index;
+    slides.forEach((s, i) => s.classList.toggle("active", i === currentIndex));
+    dots.forEach((d, i) => d.classList.toggle("active", i === currentIndex));
+  }
+
+  leftArrow.addEventListener("click", () => goTo(currentIndex - 1));
+  rightArrow.addEventListener("click", () => goTo(currentIndex + 1));
+  dots.forEach(d => {
+    d.addEventListener("click", () => goTo(parseInt(d.dataset.index)));
+  });
 }
 
 function renderProduct(product, options, variants) {
-  const hasImages = product.images && product.images.length > 0;
-  const images = hasImages ? product.images : [];
+  const images = (product.images && product.images.length > 0) ? product.images : [];
   const categoryLabels = { tops: "Tops", outerwear: "Outerwear", bottoms: "Bottoms", accessories: "Accessories", archive_rental: "Archive Rental" };
-  const labelLabels = { made_to_order: "Made to Order", ready_to_ship: "Ready to Ship", one_of_one: "One of One", archive_rental: "Archive Rental" };
 
   const minPrice = variants.length > 0
     ? Math.min(...variants.filter(v => v.price_ars).map(v => v.price_ars))
     : null;
 
   let initialVariant = variants.find(v => v.stock > 0) || variants[0] || null;
-
   const selected = initialVariant ? { ...initialVariant.options } : {};
   let currentVariant = initialVariant;
 
@@ -161,95 +194,94 @@ function renderProduct(product, options, variants) {
   };
 
   let optionsHTML = "";
-  if (options.length > 0) {
-    optionsHTML = `<div class="product-options">`;
-    for (const opt of options) {
-      const values = Array.isArray(opt.values) ? opt.values : [];
-      const isColor = opt.kind === "color";
-      optionsHTML += `
+  const colorOption = options.find(o => o.kind === "color");
+  if (colorOption) {
+    const values = Array.isArray(colorOption.values) ? colorOption.values : [];
+    optionsHTML = `
+      <div class="product-options">
         <div class="product-option-group">
-          <span class="product-option-label">${opt.kind}</span>
-          <div class="product-option-values" data-kind="${opt.kind}">
+          <div class="product-option-values" data-kind="color">
             ${values.map(v =>
-              isColor
-                ? `<button class="option-btn option-color ${selected[opt.kind] === v ? 'active' : ''}" data-value="${v}" style="background:${colorMap[v.toLowerCase()] || '#ccc'}" title="${v}"></button>`
-                : `<button class="option-btn ${selected[opt.kind] === v ? 'active' : ''}" data-value="${v}">${v}</button>`
+              `<button class="option-btn option-color ${selected.color === v ? 'active' : ''}" data-value="${v}" style="background:${colorMap[v.toLowerCase()] || '#ccc'}" title="${v}"></button>`
             ).join("")}
           </div>
-        </div>`;
-    }
-    optionsHTML += `</div>`;
+        </div>
+      </div>`;
   }
 
-  const stockText = currentVariant
-    ? (currentVariant.stock > 0 ? `${currentVariant.stock} en stock` : "Sin stock")
-    : "Sin stock";
-
   page.innerHTML = `
-    <div class="product-layout">
-      <div class="product-gallery" id="product-gallery">
-        ${renderGallery(product, currentVariant?.images)}
-      </div>
-      <div class="product-info-spacer"></div>
+    <a href="/shop.html" class="product-back">&larr; Volver</a>
+    <div class="product-gallery-section">
+      ${renderCarousel(product, currentVariant?.images || images, 0)}
     </div>
-    <div class="product-info">
-      <a href="/shop.html" class="product-back">&larr; Volver al shop</a>
-      <div class="product-meta">
-        <span class="product-category">${categoryLabels[product.category] || product.category}</span>
-        ${product.label ? `<span class="product-label">${labelLabels[product.label] || product.label}</span>` : ""}
-      </div>
+    <div class="product-info-section">
       <h1 class="product-name">${product.name}</h1>
+      <span class="product-category">${categoryLabels[product.category] || product.category}</span>
       <span class="product-price" id="product-price">${minPrice ? formatARS(minPrice) : ""}</span>
-      <div class="product-description">${product.description || ""}</div>
       ${optionsHTML}
-      <div class="product-stock" id="product-stock">${stockText}</div>
-      <div class="product-sku" id="product-sku">SKU: ${currentVariant ? currentVariant.sku : "—"}</div>
-      <a href="/shop.html" class="product-shop-btn">Shop</a>
+      <button class="add-to-bag-btn" id="add-to-bag-btn">Add to Bag</button>
+    </div>
+    <div class="cart-popup-overlay" id="cart-popup">
+      <div class="cart-popup">
+        <p class="cart-popup-msg">Agregado!</p>
+        <div class="cart-popup-buttons">
+          <button class="cart-popup-btn secondary" id="popup-continue">Seguir comprando</button>
+          <button class="cart-popup-btn primary" id="popup-cart">Ver mi carrito</button>
+        </div>
+      </div>
     </div>
   `;
 
-  function alignInfo() {
-    const spacer = document.querySelector(".product-info-spacer");
-    const info = document.querySelector(".product-info");
-    if (!spacer || !info) return;
-    if (window.innerWidth <= 1000) {
-      info.style.left = "";
-      info.style.width = "";
-      return;
+  setupCarousel(currentVariant?.images || images);
+
+  document.getElementById("add-to-bag-btn").addEventListener("click", () => {
+    if (currentVariant) {
+      window.cart.add({
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        image: (currentVariant?.images?.[0] || product.images?.[0]),
+        price: currentVariant.price_ars,
+        sku: currentVariant.sku,
+        options: { ...selected },
+        quantity: 1,
+      });
     }
-    const rect = spacer.getBoundingClientRect();
-    info.style.left = rect.left + "px";
-    info.style.width = rect.width + "px";
-  }
+    document.getElementById("cart-popup").classList.add("open");
+  });
 
-  alignInfo();
-  window.addEventListener("resize", alignInfo);
+  document.getElementById("popup-continue").addEventListener("click", () => {
+    document.getElementById("cart-popup").classList.remove("open");
+  });
 
-  const optionGroups = page.querySelectorAll(".product-option-values");
-  optionGroups.forEach((group) => {
-    const kind = group.dataset.kind;
-    group.querySelectorAll(".option-btn").forEach((btn) => {
+  document.getElementById("popup-cart").addEventListener("click", () => {
+    document.getElementById("cart-popup").classList.remove("open");
+    window.cart.open();
+  });
+
+  const optionGroup = page.querySelector(".product-option-values");
+  if (optionGroup) {
+    optionGroup.querySelectorAll(".option-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
-        group.querySelectorAll(".option-btn").forEach(b => b.classList.remove("active"));
+        optionGroup.querySelectorAll(".option-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        selected[kind] = btn.dataset.value;
+        selected.color = btn.dataset.value;
 
         const match = findMatchingVariant(variants, selected);
         if (match) {
           currentVariant = match;
           document.getElementById("product-price").textContent = formatARS(match.price_ars);
-          document.getElementById("product-stock").textContent = match.stock > 0 ? `${match.stock} en stock` : "Sin stock";
-          document.getElementById("product-sku").textContent = `SKU: ${match.sku}`;
-          const gallery = document.getElementById("product-gallery");
-          if (gallery) {
-            gallery.innerHTML = renderGallery(product, match.images);
+          const gallerySection = document.querySelector(".product-gallery-section");
+          if (gallerySection) {
+            gallerySection.innerHTML = renderCarousel(product, match.images || images, 0);
+            setupCarousel(match.images || images);
           }
         }
       });
     });
-  });
+  }
 
-  gsap.from([`.product-gallery > *`, `.product-info`], {
+  gsap.from([".gallery-carousel", ".product-info-section"], {
     opacity: 0,
     y: 20,
     duration: 0.6,

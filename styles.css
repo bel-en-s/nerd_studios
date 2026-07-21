@@ -117,7 +117,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1;
+  z-index: 100;
 }
 
 .nav-logo a {
@@ -133,7 +133,6 @@ nav {
   text-transform: uppercase;
   line-height: 1;
   color: var(--base-100);
-  mix-blend-mode: difference;
   margin: 0;
 }
 
@@ -143,13 +142,33 @@ nav {
 }
 
 .nav-links a {
-  mix-blend-mode: difference;
   font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
   font-weight: 400;
   font-size: 0.85rem;
   letter-spacing: 0.1em;
   padding: 0.5rem 0;
   /* transform: translateY(150%); */
+}
+
+.nav-cart-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-cart-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
 }
 
 .menu-toggle {
@@ -160,7 +179,6 @@ nav {
   z-index: 20;
   flex-direction: column;
   gap: 6px;
-  mix-blend-mode: difference;
 }
 
 .menu-toggle .bar {
@@ -475,6 +493,27 @@ nav a .word,
 
 @media (max-width: 1000px) {
   nav {
+    z-index: 100;
+  }
+
+  .nav-cart-btn svg,
+  .nav-cart-link svg {
+    stroke: #fff;
+    color: #fff;
+  }
+
+  .menu-toggle .bar {
+    background-color: #fff;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 20;
   }
 
@@ -501,6 +540,10 @@ nav a .word,
     transform: translateY(-7px) rotate(-45deg);
   }
 
+  .nav-cart-btn {
+    display: flex;
+  }
+
   .nav-links {
     position: fixed;
     top: 0;
@@ -524,9 +567,9 @@ nav a .word,
   .nav-links a {
     font-family: "Special Gothic Condensed One", "Helvetica", sans-serif;
     font-size: 1.5rem;
-    mix-blend-mode: normal;
     text-transform: uppercase;
     letter-spacing: 0.15em;
+    color: #fff;
   }
 
   .nav-logo-text {

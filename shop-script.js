@@ -148,18 +148,20 @@ function renderProducts(products) {
       const colors = p.colors || [];
 
       return `
-        <a href="/product.html?slug=${p.slug}" class="product-card" data-slug="${p.slug}">
-          <div class="product-card-image-wrapper">
-            ${
-              imageUrl
-                ? `<img class="product-card-image primary" src="${imageUrl}" alt="${p.name}" loading="lazy" />
-                   ${secondaryUrl ? `<img class="product-card-image secondary" src="${secondaryUrl}" alt="${p.name}" loading="lazy" />` : ''}`
-                : `<div class="product-card-image-placeholder">${p.name.charAt(0)}</div>`
-            }
-          </div>
+        <div class="product-card" data-slug="${p.slug}">
+          <a href="/product.html?slug=${p.slug}" class="product-card-link">
+            <div class="product-card-image-wrapper">
+              ${
+                imageUrl
+                  ? `<img class="product-card-image primary" src="${imageUrl}" alt="${p.name}" loading="lazy" />
+                     ${secondaryUrl ? `<img class="product-card-image secondary" src="${secondaryUrl}" alt="${p.name}" loading="lazy" />` : ''}`
+                  : `<div class="product-card-image-placeholder">${p.name.charAt(0)}</div>`
+              }
+            </div>
+          </a>
           <div class="product-card-info">
             <span class="product-card-category">${categoryLabels[p.category] || p.category}</span>
-            <h3 class="product-card-name">${p.name}</h3>
+            <a href="/product.html?slug=${p.slug}" class="product-card-name-link"><h3 class="product-card-name">${p.name}</h3></a>
             ${
               price
                 ? `<span class="product-card-price">${formatARS(price)}</span>`
@@ -171,8 +173,9 @@ function renderProducts(products) {
                 ? `<span class="product-card-variants">${variantCount} variante${variantCount !== 1 ? "s" : ""}</span>`
                 : ""
             }
+            ${p.firstVariantSku ? `<button class="add-to-cart-card-btn" data-sku="${p.firstVariantSku}" data-id="${p.id}" data-name="${p.name}" data-image="${p.firstVariantImage}" data-price="${p.firstVariantPrice}">Add to Bag</button>` : ""}
           </div>
-        </a>
+        </div>
       `;
     })
     .join("");
@@ -204,17 +207,46 @@ async function loadProducts(category) {
       const prices = variants.filter((v) => v.price_ars).map((v) => v.price_ars);
       const minPrice = prices.length > 0 ? Math.min(...prices) : null;
       const colors = [...new Set(variants.filter(v => v.options?.color).map(v => v.options.color))];
+      const firstV = variants[0] || null;
       return {
         ...p,
         variantPrice: minPrice,
         variantCount: variants.length,
         colors,
+        firstVariantSku: firstV?.sku || null,
+        firstVariantImage: firstV?.images?.[0] || p.images?.[0] || null,
+        firstVariantPrice: firstV?.price_ars || minPrice,
       };
     })
   );
 
   renderProducts(enriched);
 }
+
+productGrid.addEventListener("click", (e) => {
+  const btn = e.target.closest(".add-to-cart-card-btn");
+  if (!btn) return;
+  e.preventDefault();
+  window.cart.add({
+    id: btn.dataset.id,
+    slug: "",
+    name: btn.dataset.name,
+    image: btn.dataset.image,
+    price: parseInt(btn.dataset.price),
+    sku: btn.dataset.sku,
+    options: {},
+    quantity: 1,
+  });
+  const toast = document.createElement("div");
+  toast.className = "shop-toast";
+  toast.textContent = "Agregado!";
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add("show"));
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 1500);
+});
 
 filterBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
