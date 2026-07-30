@@ -87,7 +87,7 @@ async function fetchOptions(productId) {
 
 async function fetchVariants(productId) {
   try {
-    const url = `${API_BASE}/api/collections/product_variants/records?filter=(product='${productId}' && active=true)`;
+    const url = `${API_BASE}/api/collections/product_variants/records?filter=(product='${productId}')`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();

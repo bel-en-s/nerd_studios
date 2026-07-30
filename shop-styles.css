@@ -555,3 +555,37 @@ body:has(.shop-page) nav {
     padding: 1rem 1.25rem 1.25rem;
   }
 }
+
+.checkout-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  padding: 1rem;
+  text-align: center;
+  font-family: "Helvetica Light", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  animation: slideDown 0.3s ease;
+}
+
+.checkout-success {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.checkout-failure {
+  background: #c0392b;
+  color: #fff;
+}
+
+.checkout-pending {
+  background: #e67e22;
+  color: #fff;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}

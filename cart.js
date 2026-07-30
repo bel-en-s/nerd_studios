@@ -166,6 +166,38 @@ function initCartUI() {
       openCart();
     });
   });
+
+  const checkoutBtn = document.querySelector(".cart-checkout-btn");
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", async () => {
+      const cart = getCart();
+      if (cart.items.length === 0) return;
+
+      checkoutBtn.disabled = true;
+      checkoutBtn.textContent = "Procesando...";
+
+      try {
+        const res = await fetch(`${API_BASE}/checkout`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items: cart.items }),
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || `Error ${res.status}`);
+        }
+
+        const data = await res.json();
+        window.location.href = data.init_point;
+      } catch (err) {
+        console.error("Checkout error:", err);
+        alert("No se pudo iniciar el pago. Intentalo de nuevo.");
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = "Checkout";
+      }
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", initCartUI);

@@ -258,3 +258,28 @@ filterBtns.forEach((btn) => {
 const params = new URLSearchParams(window.location.search);
 const initialFilter = params.get("categoria") || "all";
 loadProducts(initialFilter);
+
+const paymentStatus = params.get("status");
+if (paymentStatus) {
+  const messages = {
+    success: "Pago aprobado! Gracias por tu compra.",
+    failure: "El pago fue rechazado. Intentá de nuevo.",
+    pending: "El pago esta pendiente. Te avisaremos cuando se acredite.",
+  };
+  const statusBanner = document.createElement("div");
+  statusBanner.className = `checkout-banner checkout-${paymentStatus}`;
+  statusBanner.textContent = messages[paymentStatus] || "";
+  document.body.insertBefore(statusBanner, document.body.firstChild);
+  statusBanner.addEventListener("click", () => statusBanner.remove());
+
+  if (paymentStatus === "success") {
+    localStorage.removeItem("nerd_cart");
+    document.querySelectorAll(".cart-count").forEach(el => {
+      el.textContent = "0";
+      el.style.display = "none";
+    });
+  }
+
+  const cleanUrl = window.location.pathname + (params.get("categoria") ? `?categoria=${params.get("categoria")}` : "");
+  window.history.replaceState({}, "", cleanUrl);
+}
