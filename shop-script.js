@@ -149,7 +149,7 @@ function renderProducts(products) {
 
       return `
         <div class="product-card" data-slug="${p.slug}">
-          <a href="/product.html?slug=${p.slug}" class="product-card-link">
+          <a href="./product.html?slug=${p.slug}" class="product-card-link">
             <div class="product-card-image-wrapper">
               ${
                 imageUrl
@@ -161,7 +161,7 @@ function renderProducts(products) {
           </a>
           <div class="product-card-info">
             <span class="product-card-category">${categoryLabels[p.category] || p.category}</span>
-            <a href="/product.html?slug=${p.slug}" class="product-card-name-link"><h3 class="product-card-name">${p.name}</h3></a>
+            <a href="./product.html?slug=${p.slug}" class="product-card-name-link"><h3 class="product-card-name">${p.name}</h3></a>
             ${
               price
                 ? `<span class="product-card-price">${formatARS(price)}</span>`

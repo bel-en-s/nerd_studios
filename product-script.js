@@ -210,7 +210,7 @@ function renderProduct(product, options, variants) {
   }
 
   page.innerHTML = `
-    <a href="/shop.html" class="product-back">&larr; Volver</a>
+    <a href="./shop.html" class="product-back">&larr; Volver</a>
     <div class="product-gallery-section">
       ${renderCarousel(product, currentVariant?.images || images, 0)}
     </div>
