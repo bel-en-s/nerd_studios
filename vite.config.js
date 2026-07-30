@@ -5,6 +5,7 @@ export default defineConfig({
   base: "/nerd_studios/",
 
   build: {
+    outDir: "docs",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
