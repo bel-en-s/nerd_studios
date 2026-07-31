@@ -29,7 +29,11 @@ func main() {
 		se.Router.GET("/ping", func(e *core.RequestEvent) error {
 			return e.String(200, "pong")
 		})
-		log.Println("Rutas /checkout y /ping registradas")
+		se.Router.POST("/shipping/rates", handlers.ShippingRatesHandler)
+		se.Router.GET("/shipping/agencies", handlers.ShippingAgenciesHandler)
+		se.Router.POST("/shipping/import", handlers.ShippingImportHandler)
+		se.Router.POST("/shipping/tracking", handlers.ShippingTrackingHandler)
+		log.Println("Rutas /checkout /ping /shipping/* registradas")
 		return se.Next()
 	})
 

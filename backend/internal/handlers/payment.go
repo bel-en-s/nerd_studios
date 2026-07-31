@@ -18,7 +18,21 @@ type cartItem struct {
 }
 
 type checkoutRequest struct {
-	Items []cartItem `json:"items"`
+	Items    []cartItem     `json:"items"`
+	Shipping *checkoutShipping `json:"shipping,omitempty"`
+}
+
+type checkoutShipping struct {
+	Cost         int    `json:"cost"`
+	DeliveryType string `json:"deliveryType"`
+	Agency       string `json:"agency,omitempty"`
+	RecipientName  string `json:"recipientName"`
+	RecipientEmail string `json:"recipientEmail"`
+	PostalCode     string `json:"postalCode"`
+	StreetName     string `json:"streetName,omitempty"`
+	StreetNumber   string `json:"streetNumber,omitempty"`
+	City           string `json:"city,omitempty"`
+	ProvinceCode   string `json:"provinceCode,omitempty"`
 }
 
 type mpItem struct {
@@ -73,14 +87,23 @@ func CheckoutHandler(e *core.RequestEvent) error {
 		frontendURL = "http://localhost:5173"
 	}
 
-	mpItems := make([]mpItem, len(req.Items))
-	for i, item := range req.Items {
-		mpItems[i] = mpItem{
+	mpItems := make([]mpItem, 0, len(req.Items)+1)
+	for _, item := range req.Items {
+		mpItems = append(mpItems, mpItem{
 			Title:      item.Name,
 			Quantity:   item.Quantity,
 			UnitPrice:  float64(item.Price),
 			CurrencyID: "ARS",
-		}
+		})
+	}
+
+	if req.Shipping != nil && req.Shipping.Cost > 0 {
+		mpItems = append(mpItems, mpItem{
+			Title:      "Envio - Correo Argentino",
+			Quantity:   1,
+			UnitPrice:  float64(req.Shipping.Cost),
+			CurrencyID: "ARS",
+		})
 	}
 
 	mpReq := mpPreferenceRequest{
